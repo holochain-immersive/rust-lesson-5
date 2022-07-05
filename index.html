@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here." />
+  <base href="/" />
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+      background-color: #ededed;
+      --r-main-font-size: 24px;
+      --r-heading-margin: 20px 0 12px 0;
+    }
+
+    .slides {
+      width: 75% !important;
+    }
+
+    .container {
+      top: 0 !important;
+      display: flex !important;
+      flex-direction: row !important;
+    }
+
+    .column {
+      flex: 1;
+    }
+
+    section {
+      text-align: left;
+    }
+
+    .text-larger {
+      font-size: 1.25em;
+    }
+
+    .text-smaller {
+      font-size: 0.5em;
+    }
+
+    .popover {
+      position: absolute;
+      background-color: #4d4d4d;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+      border-radius: 10px;
+      width: auto;
+      transform: translate(35px, -15px);
+    }
+
+    .popover:after {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: -10px;
+      border-style: solid;
+      border-width: 25px 25px 0;
+      border-color: #4d4d4d transparent;
+      display: block;
+      width: 0;
+      z-index: 1;
+      transform: translate(-50%, 50%) rotate(90deg);
+    }
+
+    .reveal pre code {
+      max-height: 800px !important;
+    }
+  </style>
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/reveal.css" />
+  <link rel="stylesheet" href="/node_modules/reveal.js/dist/theme/black.css" />
+  <link rel="stylesheet" href="/node_modules/reveal.js/plugin/highlight/monokai.css" />
+  <title>Lesson 5</title>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Traits</h1>
+      </section>
+
+      <section>
+        <h3>Traits</h3>
+        <li class="fragment fade-in-then-semi-out">
+          Definition: A set of function signatures that can be mixed in to a type
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          We can use traits to define shared behavior in an abstract way
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          We can use <em>trait bounds</em> to specify that a generic type can be any type that has certain behavior.
+        </li>
+      </section>
+
+      <section>
+        <h3>Syntax</h3>
+        <li class="fragment fade-in-then-semi-out">
+          <code>impl TraitName for TypeName {...}</code>
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          In the block where that trait is applied for a given type, you must implement all the functions named by the
+          trait definition
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          Methods defined in a trait are pub by default
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Unlike methods defined in a type
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h3>Using traits ("implementing")</h3>
+        <li class="fragment fade-in-then-semi-out">
+          You can implement the <code>Eq</code> trait to:
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            make a type compatible with the "==" operator
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          You can implement the <code>Debug</code> trait to:
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            make a type compatible with the <code>println!("{:?}", some_instance)</code> format
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          You can implement the <code>Clone</code> trait to:
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            make a type provide the <code>.clone()</code> method
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          You can implement the <code>Ord</code> trait to:
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            make a type compatible with sorting functions
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          A trait can provide a default implementation for one of its method
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Limitation: you can only implement functions that are ignorant of what type they're being blended into
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          A trait definition can also be generic, specifying one or more types they are defined in terms of
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          You can implement the <code>Into&lt;SomeType></code> trait to make a type compatible with certain functions
+          you'll call often
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Also <code>::from()</code>
+          </li>
+          <li class="fragment fade-in-then-semi-out">
+            This is quite common in Holochain
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h3>Using traits ("implementing") <span class="text-smaller">continued</span></h3>
+        <li class="fragment fade-in-then-semi-out">
+          Bounding generic types
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Whenever we annotate a function signature or struct with a generic type with <code>&lt;SomeType></code>
+            annotation, that annotation can be bounded such that only types that implement some trait can be considered
+            matching
+          </li>
+          <ul>
+            <li class="fragment fade-in-then-semi-out">
+              <code>&lt;SomeType: SomeTrait></code>
+            </li>
+          </ul>
+          <li class="fragment fade-in-then-semi-out">
+            <code>fn some_function&lt;SomeType: Into&lt;SomeOtherType>>(input: SomeType){}</code>
+          </li>
+          <ul>
+            <li class="fragment fade-in-then-semi-out">
+              This is a generic function you might try to call, which can be run on any type that has the ability to be
+              converted into a string
+            </li>
+          </ul>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          A trait can require that it only be applied to structs that have already had other specific traits blended
+          onto them
+        </li>
+      </section>
+      <section>
+        <h3>Defining traits</h3>
+        <li class="fragment fade-in-then-semi-out">
+          Rare to define custom traits in holochain
+        </li>
+        <li class="fragment fade-in-then-semi-out">
+          [run through all the above beats from "implementing traits", but illustrate how they look as the defining
+          author of the trait]
+        </li>
+      </section>
+      <section>
+        <h3>Procedural macros (decorator-style)</h3>
+        <li class="fragment fade-in-then-semi-out">
+          Syntax
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Typically appears on the line above a type or function definition
+          </li>
+          <li class="fragment fade-in-then-semi-out">
+            <code>#[macro_name(parameterization_string)]</code>
+          </li>
+          <ul>
+            <li class="fragment fade-in-then-semi-out">
+              Where parameterization_string is arbitrarily parsible by the macro which does metaprogramming on it
+            </li>
+          </ul>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          Derive is one of the most common procedural macros
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Derives a default implementation on the following type for the traits passed into the parameterization
+            string
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          Clone
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            Speed vs side effect avoidance
+          </li>
+          <li class="fragment fade-in-then-semi-out">
+            In holochain, you tend to clone a lot, rather than using mutable refs
+          </li>
+        </ul>
+        <li class="fragment fade-in-then-semi-out">
+          Debug
+        </li>
+        <ul>
+          <li class="fragment fade-in-then-semi-out">
+            A definition that has <code>#[derive(Debug)]</code>> a definition that has #[derive(Debug)] defined on it is
+            compatible with the <code>println!("{:?}", some_struct)</code> pattern defined on it is compatible with the
+            <code>println!("{:?}", some_struct)</code> pattern
+          </li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+  <script type="module">
+    import Reveal from "reveal.js";
+    import Markdown from "reveal.js/plugin/markdown/markdown.esm.js";
+    import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
+    import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
+    import RevealNestedFragments from "reveal.js-nested-fragments";
+
+    let deck = new Reveal({
+      transition: "none",
+      plugins: [
+        Markdown,
+        RevealHighlight,
+        RevealNotes,
+        RevealNestedFragments,
+      ],
+    });
+    deck.initialize();
+  </script>
+</body>
+
+</html>
