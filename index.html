@@ -18,6 +18,10 @@
       --r-heading-margin: 20px 0 12px 0;
     }
 
+    section {
+      top: 10px !important;
+    }
+
     .slides {
       width: 75% !important;
     }
@@ -282,6 +286,9 @@
     import RevealHighlight from "reveal.js/plugin/highlight/highlight.esm.js";
     import RevealNotes from "reveal.js/plugin/notes/notes.esm.js";
     import RevealNestedFragments from "reveal.js-nested-fragments";
+    import RevealEliminateEmptyLines from "reveal.js-eliminate-empty-lines";
+    import RevealAnimate from "reveal.js-animate-fragments";
+
 
     let deck = new Reveal({
       transition: "none",
@@ -290,6 +297,8 @@
         RevealHighlight,
         RevealNotes,
         RevealNestedFragments,
+        RevealEliminateEmptyLines,
+        RevealAnimate,
       ],
     });
     deck.initialize();
